@@ -1,0 +1,29 @@
+FastAPI is a modern Python framework for building web APIs. It uses Python type hints for validation, documentation, and request handling.
+
+Docker allows applications and their dependencies to run inside isolated containers. This helps make software environments more reproducible across different machines.
+
+SQLite is a lightweight relational database stored in a single file. It is useful for local development, prototypes, and small applications.
+
+SQL is a language used to create, read, update, and delete structured data stored in relational databases.
+
+Pytest is a Python testing framework used to verify that functions, APIs, and application behavior work as expected.
+
+Pydantic is a Python library used for data validation. FastAPI uses Pydantic models to validate incoming request data and convert it into structured Python objects.
+
+Retrieval-Augmented Generation combines information retrieval with language-model generation. A RAG system retrieves relevant information before asking a language model to generate an answer.
+
+Document chunking divides large pieces of text into smaller sections. Smaller chunks make it easier for a retrieval system to find the most relevant information.
+
+Embeddings convert text into numerical vectors that represent semantic meaning. Texts with similar meanings usually have embeddings that are closer together in vector space.
+
+Semantic search compares the embedding of a user query with document embeddings to find chunks that are similar in meaning, even when they do not use exactly the same words.
+
+A vector database stores embeddings and supports efficient similarity search. It is commonly used in RAG applications to retrieve relevant document chunks.
+
+An AI agent is a system that uses a language model together with tools, instructions, and application logic to perform multi-step tasks.
+
+Automated testing is important in AI applications because changes to prompts, retrieval logic, APIs, or models can accidentally break previously working behavior.
+
+Deployment is the process of making an application available outside the local development environment so that other users or systems can access it.
+
+AI engineering combines machine learning knowledge with software engineering skills such as APIs, databases, testing, containerization, deployment, monitoring, and system design.
