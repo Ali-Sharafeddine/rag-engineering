@@ -4,3 +4,19 @@ Built a Retrieval-Augmented Generation pipeline from scratch using paragraph-bas
 I first implemented cosine similarity manually, then replaced it with FAISS.
 
 End-to-end RAG system with paragraph chunking, SentenceTransformer embeddings, FAISS semantic retrieval, grounded LLM generation, FastAPI serving, source attribution, retrieval evaluation, and automated API tests.
+
+## Current Features
+
+- Paragraph-based document chunking
+- SentenceTransformer embeddings
+- FAISS semantic retrieval
+- Grounded LLM generation
+- Source attribution with similarity scores
+- Retrieval evaluation
+- FastAPI `/ask` endpoint
+- Automated API tests with mocked LLM generation
+
+## Current Test Status
+
+- Retrieval evaluation: 5/5 expected top results
+- API tests: 3 passed
