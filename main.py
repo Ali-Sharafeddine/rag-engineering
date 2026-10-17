@@ -3,6 +3,7 @@ from rag.chunking import chunk_by_paragraph
 from rag.embeddings import create_embeddings
 from rag.vector_store import build_index, search_index
 from rag.generation import generate_answer
+from evaluation import evaluate_retrieval, evaluation_questions
 
 
 text = Path(
@@ -50,3 +51,9 @@ for rank, (score, index_position) in enumerate(
     print(f"\nSource {rank}")
     print(f"Score: {float(score):.4f}")
     print(chunks[int(index_position)])
+
+evaluate_retrieval(
+    evaluation_questions,
+    chunks,
+    index
+)
