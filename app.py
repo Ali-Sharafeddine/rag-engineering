@@ -13,13 +13,22 @@ app = FastAPI(
 )
 
 
-text = Path(
-    "documents/knowledge.txt"
-).read_text(encoding="utf-8")
+from config import KNOWLEDGE_PATH, TOP_K
+text = KNOWLEDGE_PATH.read_text(
+    encoding="utf-8"
+)
 
 chunks = chunk_by_paragraph(text)
 chunk_embeddings = create_embeddings(chunks)
 index = build_index(chunk_embeddings)
+
+
+@app.get("/health")
+def health():
+    return {
+        "status": "ok",
+        "service": "rag-api"
+    }
 
 
 @app.post(
@@ -43,7 +52,7 @@ def ask_question(request: QuestionRequest):
     scores, indices = search_index(
         query_embedding,
         index,
-        top_k=3
+        top_k=TOP_K
     )
 
     retrieved_chunks = [

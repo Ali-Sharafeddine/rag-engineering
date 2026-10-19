@@ -14,9 +14,12 @@ End-to-end RAG system with paragraph chunking, SentenceTransformer embeddings, F
 - Source attribution with similarity scores
 - Retrieval evaluation
 - FastAPI `/ask` endpoint
+- FastAPI `/health` endpoint
+- Centralized configuration
 - Automated API tests with mocked LLM generation
+- Dockerfile for containerized deployment
 
-## Current Test Status
+## Test Status
 
 - Retrieval evaluation: 5/5 expected top results
-- API tests: 3 passed
+- API tests: 4 passed

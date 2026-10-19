@@ -1,5 +1,9 @@
+fastapi
+uvicorn
+pydantic
+python-dotenv
+openai
 sentence-transformers
 faiss-cpu
-openai
-python-dotenv
+numpy
 pytest
