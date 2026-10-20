@@ -72,3 +72,23 @@ def test_health():
         "status": "ok",
         "service": "rag-api"
     }
+
+
+def test_llm_failure(monkeypatch):
+    def fake_generate_answer(question, context):
+        raise Exception("LLM unavailable")
+
+    monkeypatch.setattr(
+        "app.generate_answer",
+        fake_generate_answer
+    )
+
+    response = client.post(
+        "/ask",
+        json={"question": "What is RAG?"}
+    )
+
+    assert response.status_code == 503
+    assert response.json()["detail"] == (
+        "The language model service is currently unavailable."
+    )

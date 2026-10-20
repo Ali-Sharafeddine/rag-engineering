@@ -63,10 +63,13 @@ def ask_question(request: QuestionRequest):
 
     context = "\n\n".join(retrieved_chunks)
 
-    answer = generate_answer(
-        question,
-        context
-    )
+    try:
+        answer = generate_answer(question, context)
+    except Exception:
+        raise HTTPException(
+            status_code=503,
+            detail="The language model service is currently unavailable."
+        )
 
     sources = []
 

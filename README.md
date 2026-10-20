@@ -23,3 +23,33 @@ End-to-end RAG system with paragraph chunking, SentenceTransformer embeddings, F
 
 - Retrieval evaluation: 5/5 expected top results
 - API tests: 4 passed
+
+## Architecture
+
+Question
+↓
+FastAPI
+↓
+SentenceTransformer
+↓
+FAISS retrieval
+↓
+Relevant chunks
+↓
+LLM generation
+↓
+Answer + sources
+
+## Run Locally
+
+Install dependencies:
+
+pip install -r requirements-dev.txt
+
+Start the API:
+
+uvicorn app:app --reload
+
+Open:
+
+http://127.0.0.1:8000/docs
