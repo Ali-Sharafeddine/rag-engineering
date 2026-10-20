@@ -13,13 +13,26 @@ app = FastAPI(
 )
 
 
-from config import KNOWLEDGE_PATH, TOP_K
+from config import KNOWLEDGE_PATH, TOP_K, MIN_RETRIEVAL_SCORE
 text = KNOWLEDGE_PATH.read_text(
     encoding="utf-8"
 )
 
-chunks = chunk_by_paragraph(text)
-chunk_embeddings = create_embeddings(chunks)
+from rag.chunking import create_chunk_records
+
+chunk_records = create_chunk_records(
+    text,
+    source="knowledge.txt"
+)
+
+
+chunk_texts = [
+    record["text"]
+    for record in chunk_records
+]
+
+
+chunk_embeddings = create_embeddings(chunk_texts)
 index = build_index(chunk_embeddings)
 
 
@@ -55,39 +68,63 @@ def ask_question(request: QuestionRequest):
         top_k=TOP_K
     )
 
-    retrieved_chunks = [
-        chunks[int(i)]
-        for i in indices
-        if i >= 0
-    ]
-
-    context = "\n\n".join(retrieved_chunks)
-
-    try:
-        answer = generate_answer(question, context)
-    except Exception:
-        raise HTTPException(
-            status_code=503,
-            detail="The language model service is currently unavailable."
-        )
-
+    # 1. Create sources FIRST
     sources = []
 
-    for score, index_position in zip(
-        scores,
-        indices
-    ):
-        if index_position >= 0:
+    # 2. Fill sources with results above threshold
+    for score, index_position in zip(scores, indices):
+        if (
+            index_position >= 0
+            and float(score) >= MIN_RETRIEVAL_SCORE
+        ):
+            record = chunk_records[int(index_position)]
+
             sources.append(
                 {
-                    "text": chunks[int(index_position)],
-                    "score": float(score)
+                    "text": record["text"],
+                    "score": float(score),
+                    "source": record["source"]
                 }
             )
 
+    # 3. If nothing useful was retrieved
+    if not sources:
+        return {
+            "answer": (
+                "I do not have enough relevant information "
+                "to answer this question."
+            ),
+            "sources": []
+        }
+
+    # 4. Build context only AFTER sources exists
+    context = "\n\n".join(
+        source["text"]
+        for source in sources
+    )
+
+    # 5. Generate answer
+    try:
+        answer = generate_answer(
+            question,
+            context
+        )
+    except Exception:
+        raise HTTPException(
+            status_code=503,
+            detail=(
+                "The language model service "
+                "is currently unavailable."
+            )
+        )
+
+    # 6. Return answer + filtered sources
     return {
         "answer": answer,
         "sources": sources
     }
+    
+
+
 
 

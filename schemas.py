@@ -8,6 +8,7 @@ class QuestionRequest(BaseModel):
 class Source(BaseModel):
     text: str
     score: float
+    source: str
 
 
 class QuestionResponse(BaseModel):

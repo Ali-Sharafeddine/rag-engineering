@@ -18,3 +18,5 @@ LLM_MODEL = "gpt-4.1-mini"
 TOP_K = 3
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+
+MIN_RETRIEVAL_SCORE = 0.25
